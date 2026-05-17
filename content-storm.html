@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="scripts/script-theme.js"></script>
+    <title>请勿食用此蘑菇 - 迷惑菇</title>
+    <link rel="stylesheet" href="styles/style-global.css">
+    <link rel="stylesheet" href="styles/style-content-storm.css">
+    <link rel="stylesheet" href="styles/style-wave-transition.css?v=222">
+</head>
+<body class="storm-bg">
+    <div class="topbar" id="topbar">
+        <div class="topbar-left">
+            <button class="topbar-btn" id="back-btn" aria-label="返回" type="button"><svg width="28" height="28" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M31 36L19 24L31 12" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="topbar-center">
+            <div class="topbar-title"></div>
+        </div>
+        <div class="topbar-right"></div>
+    </div>
+    <div class="container">
+        <div class="storm-scene" id="storm-scene">
+            <div class="storm-svg-wrap" id="storm-svg-wrap">
+                <div class="storm-frame-inner">
+                    <div class="storm-svg-host" id="storm-svg-host">
+                        <object id="storm-svg-fallback" class="storm-svg-object" type="image/svg+xml" data="confused mushroom-5.13.svg"></object>
+                    </div>
+                    <div class="storm-empty" id="storm-empty" style="display:none;">森林现在很安静～</div>
+                </div>
+            </div>
+        </div>
+        <canvas id="particle-canvas"></canvas>
+    </div>
+    <!-- 引入音效 -->
+    <audio id="pull-sound" src="assets/pull.mp3" preload="auto"></audio>
+    <audio id="pop-sound" src="assets/pop.mp3" preload="auto"></audio>
+    <script src="scripts/script-storage-api.js"></script>
+    <script src="scripts/script-wave-transition.js?v=222"></script>
+    <script src="scripts/script-transition.js"></script>
+    <script src="scripts/script-content-storm.js"></script>
+</body>
+</html>

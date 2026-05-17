@@ -1,0 +1,139 @@
+/* index.html 专属样式 */
+
+.scene-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--mint-green);
+}
+
+.layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* 默认穿透点击 */
+}
+
+/* 基础适配: 全屏 SVG */
+.hero-svg {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+#mushroom-dy {
+    cursor: pointer;
+    pointer-events: auto;
+    transform-box: fill-box;
+    transform-origin: center bottom;
+    animation: mushroomJelly 3.6s cubic-bezier(0.2, 0.9, 0.2, 1) infinite;
+}
+
+#mushroom-dy:active {
+    transform: scale(0.985);
+    transition: transform 0.1s ease;
+}
+
+#dy [vectornator\:layerName="up"] {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: dyUp 3.8s ease-in-out infinite alternate;
+}
+
+#dy [vectornator\:layerName="down"] {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: dyDown 3.8s ease-in-out infinite alternate;
+}
+
+#particle-dy > * {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: particleDrift var(--dur, 10s) ease-in-out var(--delay, 0s) infinite alternate;
+    will-change: transform, opacity;
+}
+
+/* 提示气泡 */
+.toast {
+    position: absolute;
+    top: 40vh; /* 在居中偏上的位置 */
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text-color);
+    color: var(--mint-green);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-sm);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    white-space: nowrap;
+    box-shadow: var(--shadow-md);
+    z-index: 10;
+}
+
+.toast.show {
+    opacity: 1;
+    animation: popUp 0.5s ease forwards;
+}
+
+/* UI层 */
+.ui-layer {
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 12vh;
+}
+
+.title-wrap {
+    width: min(88vw, 560px);
+    margin-bottom: var(--spacing-sm);
+}
+
+.title-svg-object {
+    width: 100%;
+    aspect-ratio: 2445 / 1047;
+    height: auto;
+    display: block;
+    pointer-events: none;
+}
+
+/* --- 关键帧动画 --- */
+
+@keyframes mushroomJelly {
+    0% { transform: rotate(0deg) scaleX(1) scaleY(1); }
+    18% { transform: rotate(-0.5deg) scaleX(1.03) scaleY(0.96); }
+    38% { transform: rotate(0.35deg) scaleX(0.98) scaleY(1.03); }
+    58% { transform: rotate(-0.2deg) scaleX(1.015) scaleY(0.985); }
+    100% { transform: rotate(0deg) scaleX(1) scaleY(1); }
+}
+
+@keyframes dyUp {
+    0% { transform: translateY(0); opacity: 0.85; }
+    100% { transform: translateY(-8px); opacity: 1; }
+}
+
+@keyframes dyDown {
+    0% { transform: translateY(0); opacity: 0.85; }
+    100% { transform: translateY(8px); opacity: 1; }
+}
+
+@keyframes particleDrift {
+    0% { transform: translate(0, 0) rotate(0deg); opacity: 0.7; }
+    100% { transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--rot, 0deg)); opacity: 1; }
+}
+
+/* 提示气泡弹出 */
+@keyframes popUp {
+    0% { transform: translate(-50%, 10px) scale(0.8); }
+    50% { transform: translate(-50%, -5px) scale(1.1); }
+    100% { transform: translate(-50%, 0) scale(1); }
+}

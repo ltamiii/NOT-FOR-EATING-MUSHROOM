@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="scripts/script-theme.js"></script>
+    <title>请勿食用此蘑菇 - 蘑古力酱</title>
+    <link rel="stylesheet" href="styles/style-global.css">
+    <link rel="stylesheet" href="styles/style-content-storm.css">
+    <link rel="stylesheet" href="styles/style-wave-transition.css?v=222">
+</head>
+<body class="storm-bg" data-scene="choco">
+    <div class="container">
+        <div class="storm-scene" id="storm-scene">
+            <div class="storm-svg-wrap" id="storm-svg-wrap">
+                <div class="storm-frame-inner" id="storm-svg-host">
+                    <object id="storm-svg-fallback" class="storm-svg-object" type="image/svg+xml" data="choco-5.13.svg"></object>
+                </div>
+            </div>
+        </div>
+        <canvas id="particle-canvas"></canvas>
+        <div class="success-message" id="success-message" style="display: none;">
+            <h3>你成功拔出了蘑古力酱！</h3>
+            <p>世界恢复了平静...</p>
+            <button id="restart-btn">返回林间空地</button>
+        </div>
+    </div>
+    <audio id="pull-sound" src="assets/pull.mp3" preload="auto"></audio>
+    <audio id="pop-sound" src="assets/pop.mp3" preload="auto"></audio>
+    <script src="scripts/script-storage-api.js"></script>
+    <script src="scripts/script-wave-transition.js?v=222"></script>
+    <script src="scripts/script-transition.js"></script>
+    <script src="scripts/script-content-storm.js"></script>
+</body>
+</html>

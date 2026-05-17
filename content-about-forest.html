@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>请勿食用此蘑菇 - 关于这里</title>
+    <script src="scripts/script-theme.js"></script>
+    <link rel="stylesheet" href="styles/style-global.css">
+    <link rel="stylesheet" href="styles/style-ideas.css">
+    <link rel="stylesheet" href="styles/style-wave-transition.css?v=222">
+</head>
+<body data-back-href="content-ideas.html">
+    <div class="topbar" id="topbar">
+        <div class="topbar-left">
+            <button class="topbar-btn" id="back-btn" aria-label="返回" type="button"><svg width="28" height="28" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M31 36L19 24L31 12" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="topbar-center">
+            <div class="topbar-title">关于这里</div>
+        </div>
+        <div class="topbar-right">
+            <button class="more-btn" id="more-btn" aria-label="更多" type="button"><span class="more-icon" aria-hidden="true"></span></button>
+            <div class="basket-wrapper" id="basket-wrapper">
+                <button class="basket-btn" id="basket-btn" aria-label="篮子" type="button">🧺</button>
+                <div class="basket-menu" id="basket-menu">
+                    <button class="basket-item" id="basket-messages" aria-label="消息通知" type="button">🔔<span class="green-dot" id="dot-messages"></span></button>
+                    <button class="basket-item" id="basket-storm" aria-label="孢子季风" type="button">🌪️</button>
+                    <button class="basket-item" id="basket-favorites" aria-label="灵感标本室" type="button">🍄</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container glass-container about-container">
+        <div class="about-title">关于菇</div>
+        <div class="about-body">
+            <div class="about-paragraph">（像题目一样，这里的蘑菇均不支持食用，在野外看到不认识的蘑菇也请不要随意触摸和食用！）</div>
+            <div class="about-paragraph">其实蘑菇不仅仅只是森林里突然冒出来的小伞哦，它真正庞大的部分都藏在地下！蘑菇下面会延伸出大量菌丝，它们像一张缓慢生长的网络，把泥土、树木、空气和水分连接在一起。树木之间甚至会通过菌丝交换养分、传递危险信号，科学家把这种现象称作“Wood Wide Web”——森林自己的互联网。（所以说🍄是森林的wifi，请酌情采摘^ - ^）</div>
+            <div class="about-paragraph">蘑菇本身会依靠自己散发的孢子传播。孢子很轻，会随着风飘向各处，落进泥土、树皮、缝隙，等待某个合适的时刻开始生长。就像大家播种的灵感一样，或许在未来某天会长出一大片灵感菇哟(-.-)</div>
+            <div class="about-title">关于功能</div>
+            <div class="about-paragraph"><strong>1. 灵感记录页面</strong></div>
+            <div class="about-paragraph">1）种下灵感卡片时，电脑端回车快捷发送，shift + enter换行；手机端回车换行，点击“种下灵感”发送；输入内容超过4行后折叠。</div>
+            <div class="about-paragraph">2）可以选择收藏、回复、分享、删除该灵感卡片。收藏单位为一组（即该灵感卡片及其所属回复）</div>
+            <div class="about-paragraph">回复：可以通过回复补充完善复盘该灵感。</div>
+            <div class="about-paragraph">分享：可导出保存为灵感卡片JPG</div>
+            <div class="about-paragraph">删除：删除灵感，不可恢复。</div>
+            <div class="about-paragraph">3）点击选择按钮后的导出不同于单个灵感卡片的分享，点击导出后，可选择导出为docx. 或pdf文档</div>
+            <div class="about-paragraph"><strong>2. 消息通知</strong></div>
+            <div class="about-paragraph">在这里你可以收到菇们的消息，并且可以回复它们。</div>
+            <div class="about-paragraph">点击输入框左侧的孢子按钮，菇将会为你喷洒一些灵感孢子，帮助你产生灵感哦。</div>
+            <div class="about-paragraph"><strong>3. 孢子季风</strong></div>
+            <div class="about-paragraph">进入孢子季风后，你需要拔出菇，之后该菇会出现在你的消息列表里。</div>
+            <div class="about-paragraph"><strong>4. 灵感标本</strong></div>
+            <div class="about-paragraph">1）点击🍄图标将该条灵感放入灵感标本室中,前往灵感标本室即可查看收藏的灵感。收藏的灵感仍然会保留在原地。(收藏单位为一组)</div>
+            <div class="about-paragraph">2）在灵感标本室可以继续回复该灵感卡片，以便不断完善补充灵感。</div>
+            <div class="about-paragraph"><strong>5. 更多</strong></div>
+            <div class="about-paragraph">主题模式、数据导出、关于这里</div>
+        </div>
+    </div>
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <div class="drawer" id="drawer" aria-hidden="true">
+        <div class="drawer-header">
+            <div class="drawer-title">更多</div>
+            <button class="drawer-close" id="drawer-close" aria-label="关闭" type="button">×</button>
+        </div>
+        <div class="drawer-content">
+            <button class="drawer-item" type="button" data-drawer-action="theme">主题模式</button>
+            <button class="drawer-item" type="button" data-drawer-action="export">数据导出</button>
+            <button class="drawer-item" type="button" data-drawer-action="about">关于这里</button>
+        </div>
+        <div class="drawer-panel" id="drawer-panel"></div>
+    </div>
+    <script src="scripts/script-storage-api.js"></script>
+    <script src="scripts/script-ideas-shell.js"></script>
+    <script src="scripts/script-wave-transition.js?v=222"></script>
+    <script src="scripts/script-transition.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+.liquid {
+  position: fixed;
+  left: -15%;
+  top: -160vh;
+  width: 130%;
+  height: 160vh;
+  background: var(--transition-liquid, #56bbb9);
+  border-bottom-left-radius: 44% 18%;
+  border-bottom-right-radius: 56% 20%;
+  z-index: 9999;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  pointer-events: none;
+  transition: transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.liquid.active {
+  transform: translateY(160vh);
+}
+
+.liquid[data-dir="up"] {
+  top: auto;
+  bottom: -160vh;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 44% 18%;
+  border-top-right-radius: 56% 20%;
+}
+
+.liquid[data-dir="up"].active {
+  transform: translateY(-160vh);
+}

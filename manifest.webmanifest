@@ -1,0 +1,23 @@
+{
+  "name": "请勿食用此蘑菇",
+  "short_name": "请勿食用此蘑菇",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#a8e6cf",
+  "theme_color": "#a8e6cf",
+  "icons": [
+    {
+      "src": "icons/app-icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "sign.png",
+      "sizes": "500x500",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
