@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let keyboardOffset = 0;
     let keyboardRaf = 0;
     let inputbarHeight = 0;
+    let lastSendAt = 0;
+    let lastEnterKeydownAt = 0;
 
     const nameMap = {
         wholesale: 'AAA菌菇松茸批发',
@@ -177,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function sendMessage(text) {
         const trimmed = (text || '').trim();
-        if (!trimmed) return;
+        if (!trimmed) return false;
         const ts = Date.now();
         if (!Array.isArray(conv.messages)) conv.messages = [];
         conv.messages.unshift({ text: trimmed, ts, time: formatTimestamp(ts), from: 'user' });
@@ -185,6 +187,18 @@ document.addEventListener('DOMContentLoaded', () => {
         updateInputHeight();
         persist();
         render();
+        return true;
+    }
+
+    function sendFromInput() {
+        const trimmed = (input && typeof input.value === 'string' ? input.value : '').trim();
+        if (!trimmed) return;
+        const now = Date.now();
+        if (now - lastSendAt < 120) return;
+        lastSendAt = now;
+        sendMessage(trimmed);
+        if (input && typeof input.focus === 'function') input.focus();
+        updateKeyboardOffset();
     }
 
     async function triggerSpore() {
@@ -209,11 +223,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (sendBtn && input) {
-        sendBtn.addEventListener('click', () => sendMessage(input.value));
+        sendBtn.addEventListener('click', () => sendFromInput());
+        sendBtn.addEventListener('pointerup', (e) => {
+            if (e && e.pointerType === 'touch') e.preventDefault();
+            sendFromInput();
+        });
         input.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
+            if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
                 e.preventDefault();
-                sendMessage(input.value);
+                lastEnterKeydownAt = Date.now();
+                sendFromInput();
+            }
+        });
+        input.addEventListener('beforeinput', (e) => {
+            if (!e) return;
+            if (e.inputType === 'insertLineBreak' || e.inputType === 'insertParagraph') {
+                if (e.isComposing) return;
+                if (Date.now() - lastEnterKeydownAt < 500) {
+                    e.preventDefault();
+                    return;
+                }
+                e.preventDefault();
+                sendFromInput();
             }
         });
         input.addEventListener('input', () => updateInputHeight());

@@ -19,6 +19,7 @@
 
     const liquid = document.createElement('div');
     liquid.className = 'liquid';
+    liquid.setAttribute('data-wave-transition-pre', '1');
     (document.body || document.documentElement).appendChild(liquid);
     return liquid;
   };
@@ -105,4 +106,6 @@
   window.WaveTransition = { go, revealIfNeeded };
   revealIfNeeded();
   document.addEventListener('DOMContentLoaded', revealIfNeeded);
+  window.addEventListener('pageshow', revealIfNeeded);
+  window.addEventListener('pagehide', cleanupPre);
 })();

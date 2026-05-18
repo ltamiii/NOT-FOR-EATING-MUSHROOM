@@ -1276,6 +1276,7 @@ body.chat-page .chat-inputbar-inner {
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     box-shadow: 0 16px 34px rgba(31, 38, 135, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.12);
+    transform: translateZ(0);
 }
 
 body.chat-page .chat-inputbar-inner:focus-within {
@@ -1315,6 +1316,9 @@ body.chat-page .chat-send {
     box-shadow: none;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    transform: translateZ(0);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .send-icon {
@@ -1344,6 +1348,9 @@ body.chat-page .spore-btn {
     -webkit-backdrop-filter: blur(12px);
     font-size: 18px;
     line-height: 1;
+    transform: translateZ(0);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body.chat-page .spore-overlay {

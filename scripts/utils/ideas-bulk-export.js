@@ -138,10 +138,20 @@ window.IdeasBulkExport = (() => {
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
         a.download = fileName;
+        a.target = '_blank';
+        a.rel = 'noopener';
         document.body.appendChild(a);
         a.click();
         a.remove();
         setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+    }
+
+    async function shareBlob(blob, fileName, mime) {
+        if (!navigator || typeof navigator.share !== 'function' || typeof File !== 'function') return false;
+        const file = new File([blob], fileName, { type: mime || blob.type || 'application/octet-stream' });
+        if (navigator.canShare && !navigator.canShare({ files: [file] })) return false;
+        await navigator.share({ files: [file], title: fileName });
+        return true;
     }
 
     function exportLinesToDocx(lines, fileName) {
@@ -165,8 +175,12 @@ window.IdeasBulkExport = (() => {
             { name: 'word/document.xml', data: toUtf8Bytes(docXml) }
         ]);
 
-        const blob = new Blob([zipBytes], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
-        downloadBlob(blob, fileName);
+        const mime = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        const blob = new Blob([zipBytes], { type: mime });
+        shareBlob(blob, fileName, mime).catch(() => {}).then((shared) => {
+            if (shared) return;
+            downloadBlob(blob, fileName);
+        });
     }
 
     function exportLinesToPdf(lines, title) {
@@ -174,16 +188,15 @@ window.IdeasBulkExport = (() => {
         if (!w) return;
         const safeTitle = String(title || '灵感导出').replace(/[<>]/g, '');
         const content = (lines || []).join('\n');
-        const html = `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${safeTitle}</title>` +
-            `<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;padding:24px;line-height:1.6;color:#0e261e;}h1{font-size:18px;margin:0 0 14px 0;}pre{white-space:pre-wrap;word-break:break-word;font-size:14px;margin:0;}</style>` +
-            `</head><body><h1>${safeTitle}</h1><pre>${escapeXml(content)}</pre></body></html>`;
+        const html = `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"><title>${safeTitle}</title>` +
+            `<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;padding:76px 22px 26px;line-height:1.6;color:#0e261e;}header{position:fixed;left:0;right:0;top:0;padding:12px 12px calc(12px + env(safe-area-inset-top,0px));display:flex;gap:10px;align-items:center;justify-content:space-between;background:rgba(14,29,45,0.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:9999;}button{height:40px;padding:0 14px;border:0;border-radius:999px;font-weight:800;font-size:14px;color:rgba(255,255,255,0.92);background:rgba(255,255,255,0.14);touch-action:manipulation;-webkit-tap-highlight-color:transparent;}button:active{opacity:0.85;}h1{font-size:16px;margin:0;color:rgba(255,255,255,0.92);font-weight:900;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}pre{white-space:pre-wrap;word-break:break-word;font-size:14px;margin:0;}</style>` +
+            `</head><body><header><button id="back" type="button">← 返回</button><h1>${safeTitle}</h1><button id="print" type="button">导出PDF</button></header><pre>${escapeXml(content)}</pre>` +
+            `<script>(function(){var back=document.getElementById('back');var print=document.getElementById('print');var fallback='content-ideas.html';back&&back.addEventListener('click',function(e){e.preventDefault();try{window.close();}catch(_){};try{var openerHref=window.opener&&window.opener.location?window.opener.location.href:'';if(openerHref){window.location.href=openerHref;return;}}catch(_){};window.location.href=fallback;});print&&print.addEventListener('click',function(e){e.preventDefault();try{window.print();}catch(_){}});})();</script>` +
+            `</body></html>`;
         w.document.open();
         w.document.write(html);
         w.document.close();
         w.focus();
-        setTimeout(() => {
-            w.print();
-        }, 250);
     }
 
     return {
@@ -191,4 +204,3 @@ window.IdeasBulkExport = (() => {
         exportLinesToPdf
     };
 })();
-
