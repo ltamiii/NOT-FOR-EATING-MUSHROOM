@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendBtn = document.getElementById('chat-send');
     const sporeBtn = document.getElementById('spore-btn');
     const inputbar = document.getElementById('chat-inputbar');
-    const baseInnerHeight = window.innerHeight;
+    let baselineInnerHeight = window.innerHeight;
     let keyboardOffset = 0;
     let keyboardRaf = 0;
     let inputbarHeight = 0;
@@ -84,11 +84,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateInputHeight() {
         if (!input || !(input instanceof HTMLTextAreaElement)) return;
-        input.style.height = 'auto';
+        input.style.height = '0px';
         const next = Math.min(input.scrollHeight, 120);
         input.style.height = `${Math.max(next, 24)}px`;
         input.style.overflowY = input.scrollHeight > 120 ? 'auto' : 'hidden';
+        measureInputbarHeight();
         updateBottomSpace();
+        updateKeyboardOffset();
     }
 
     function updateKeyboardOffset() {
@@ -102,8 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 input instanceof HTMLElement &&
                 document.activeElement === input;
 
+            if (!active) {
+                baselineInnerHeight = window.innerHeight;
+            }
+
+            const base = Math.max(baselineInnerHeight || 0, window.innerHeight || 0);
+
             const nextOffset = vv && active
-                ? Math.max(0, baseInnerHeight - vv.height - vv.offsetTop)
+                ? Math.max(0, base - vv.height - vv.offsetTop)
                 : 0;
 
             if (Math.abs(nextOffset - keyboardOffset) < 2) return;
@@ -197,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (now - lastSendAt < 120) return;
         lastSendAt = now;
         sendMessage(trimmed);
-        if (input && typeof input.focus === 'function') input.focus();
+        if (input && typeof input.focus === 'function' && document.activeElement !== input) input.focus();
         updateKeyboardOffset();
     }
 
@@ -249,6 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         input.addEventListener('input', () => updateInputHeight());
         input.addEventListener('focus', () => {
+            baselineInnerHeight = window.innerHeight;
             measureInputbarHeight();
             updateKeyboardOffset();
             requestAnimationFrame(() => scrollToBottom('auto'));
