@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function ensureNotifyState() {
         const state = window.StorageAPI.getNotifyState();
+        if (!state.triggers) state.triggers = {};
+        if (!state.unread) state.unread = {};
 
         const pushMessage = (cid, title, text) => {
             const now = new Date();
@@ -33,6 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             pushMessage('wholesale', 'AAA菌菇松茸批发', '你好，这里是……一个暂时没有名字的森林');
             pushMessage('wholesale', 'AAA菌菇松茸批发', '你可以将你的灵机一动时候的想法或情绪感受播种在这里，这里有一些简单的功能可以供你使用。对了，顺便告诉你一个进入这里更快捷的方式！（点击打开）');
             pushMessage('wholesale', 'AAA菌菇松茸批发', '接下来先试试记录灵感，探索熟悉一下这里吧！（会有一些事情发生哦～');
+            pushMessage('wholesale', 'AAA菌菇松茸批发', '顺带一提：你在这里播种的内容都只会乖乖待在你自己的设备里，不会上交到别处，所以隐私不用担心。但也记得时不时把重要灵感导出保存呀，不然清理缓存或换设备时，它们可能会悄悄走丢。');
         } else if (state.triggers.seed0) {
             const conv = state.conversations && state.conversations.wholesale ? state.conversations.wholesale : null;
             if (conv && Array.isArray(conv.messages)) {
@@ -42,6 +45,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                         m.text = '你可以将你的灵机一动时候的想法或情绪感受播种在这里，这里有一些简单的功能可以供你使用。对了，顺便告诉你一个进入这里更快捷的方式！（点击打开）';
                     }
                 });
+            }
+            if (!state.triggers.seed0_privacy) {
+                state.triggers.seed0_privacy = true;
+                pushMessage('wholesale', 'AAA菌菇松茸批发', '顺带一提：你在这里播种的内容都只会乖乖待在你自己的设备里，不会上交到别处，所以隐私不用担心。但也记得时不时把重要灵感导出保存呀，不然清理缓存或换设备时，它们可能会悄悄走丢。');
             }
         }
 
