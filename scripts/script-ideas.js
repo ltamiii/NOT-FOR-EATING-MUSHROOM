@@ -32,7 +32,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (ideas.length === 0 && !state.triggers.seed0) {
             state.triggers.seed0 = true;
-            state.triggers.seed0_privacy = true;
             pushMessage('wholesale', 'AAA菌菇松茸批发', '你好，这里是……一个暂时没有名字的森林');
             pushMessage('wholesale', 'AAA菌菇松茸批发', '你可以将你的灵机一动时候的想法或情绪感受播种在这里，这里有一些简单的功能可以供你使用。对了，顺便告诉你一个进入这里更快捷的方式！（点击打开）');
             pushMessage('wholesale', 'AAA菌菇松茸批发', '接下来先试试记录灵感，探索熟悉一下这里吧！（会有一些事情发生哦～');
@@ -46,25 +45,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                         m.text = '你可以将你的灵机一动时候的想法或情绪感受播种在这里，这里有一些简单的功能可以供你使用。对了，顺便告诉你一个进入这里更快捷的方式！（点击打开）';
                     }
                 });
-                const privacyTextKey = '顺带一提：你在这里播种的内容';
-                let seenPrivacy = false;
-                conv.messages = conv.messages.filter((m) => {
-                    const text = m && typeof m.text === 'string' ? m.text : '';
-                    if (!text.includes(privacyTextKey)) return true;
-                    if (seenPrivacy) return false;
-                    seenPrivacy = true;
-                    return true;
-                });
-            }
-            if (!state.triggers.seed0_privacy) {
-                const hasPrivacy =
-                    conv && Array.isArray(conv.messages)
-                        ? conv.messages.some((m) => m && typeof m.text === 'string' && m.text.includes(privacyTextKey))
-                        : false;
-                state.triggers.seed0_privacy = true;
-                if (!hasPrivacy) {
-                    pushMessage('wholesale', 'AAA菌菇松茸批发', '顺带一提：你在这里播种的内容都只会乖乖待在你自己的设备里，不会上交到别处，所以隐私不用担心。但也记得时不时把重要灵感导出保存呀，不然清理缓存或换设备时，它们可能会悄悄走丢。');
-                }
             }
         }
 
