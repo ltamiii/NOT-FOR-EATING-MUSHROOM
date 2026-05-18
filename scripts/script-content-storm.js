@@ -518,16 +518,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function loadSceneSvg() {
         try {
-            const res = await fetch(sceneFilename, { cache: 'no-cache' });
+            const res = await fetch(sceneFilename);
             const text = await res.text();
             const doc = new DOMParser().parseFromString(text, 'image/svg+xml');
             sanitizeSvgDoc(doc);
             mountSvg(doc.documentElement);
         } catch (_) {
-            const fallback = document.getElementById('storm-svg-fallback');
-            if (fallback && fallback.tagName.toLowerCase() === 'object') {
-                fallback.setAttribute('data', sceneFilename);
-            }
             svgWrap.classList.add('is-ready');
         }
     }
@@ -539,9 +535,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     const fallback = document.getElementById('storm-svg-fallback');
-    if (fallback && fallback.tagName.toLowerCase() === 'object') {
+    let fallbackTimer = null;
+    const scheduleFetchFallback = () => {
+        if (fallbackTimer) return;
+        fallbackTimer = window.setTimeout(() => {
+            fallbackTimer = null;
+            if (hasMountedSvg) return;
+            loadSceneSvg();
+        }, 2200);
+    };
+
+    if (fallback && fallback.tagName.toLowerCase() === 'object' && window.location.protocol !== 'file:') {
         fallback.setAttribute('data', sceneFilename);
+        scheduleFetchFallback();
         fallback.addEventListener('load', () => {
+            if (fallbackTimer) window.clearTimeout(fallbackTimer);
+            fallbackTimer = null;
             if (hasMountedSvg) return;
             svgWrap.classList.add('is-ready');
             try {
@@ -550,11 +559,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (!doc || !svg) return;
                 sanitizeSvgDoc(doc);
                 mountSvg(svg);
-            } catch (_) {}
+            } catch (_) {
+                loadSceneSvg();
+            }
         });
-    }
-
-    if (window.location.protocol !== 'file:') {
+    } else {
         loadSceneSvg();
     }
 });

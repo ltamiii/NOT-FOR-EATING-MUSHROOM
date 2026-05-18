@@ -112,7 +112,6 @@ html[data-theme="night"] .storm-frame-inner {
     transition: opacity 220ms ease;
 }
 
-.storm-svg-wrap:not(.is-ready) .storm-svg-object,
 .storm-svg-wrap:not(.is-ready) .storm-svg {
     opacity: 0;
 }

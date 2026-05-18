@@ -43,8 +43,10 @@
     const jump = () => {
       if (jumped) return;
       jumped = true;
-      sessionStorage.setItem(KEY, '1');
-      sessionStorage.setItem(KEY_DIR, dir);
+      try {
+        sessionStorage.setItem(KEY, '1');
+        sessionStorage.setItem(KEY_DIR, dir);
+      } catch (e) {}
       window.location.href = href;
     };
 

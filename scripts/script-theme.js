@@ -86,6 +86,17 @@
 
             document.documentElement.appendChild(style);
             document.documentElement.appendChild(liquid);
+
+            window.setTimeout(() => {
+                const stuckLiquid = document.querySelector('.liquid[data-wave-transition-pre="1"]');
+                const stuckStyle = document.querySelector('style[data-wave-transition-pre="1"]');
+                if (stuckLiquid) stuckLiquid.remove();
+                if (stuckStyle) stuckStyle.remove();
+                try {
+                    sessionStorage.removeItem('__wave_transition__');
+                    sessionStorage.removeItem('__wave_transition_dir__');
+                } catch (_) {}
+            }, 2200);
         }
     } catch (e) {}
 
